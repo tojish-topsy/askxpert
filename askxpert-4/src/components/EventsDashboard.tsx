@@ -729,7 +729,7 @@ export const EventsDashboard: React.FC<EventsDashboardProps> = ({ onRegisterClic
             <div className="space-y-4">
               <div className="flex items-center space-x-2 border-b border-emerald-950/5 pb-2">
                 <h3 className="font-mono text-xs font-extrabold uppercase tracking-widest text-emerald-950/60">
-                  Ended Events / Archives
+                  Previous Events
                 </h3>
               </div>
 
