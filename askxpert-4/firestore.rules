@@ -1,0 +1,80 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Help functions
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_.@\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Determines if the authenticated user is an authorized IEEE CEK Organizer
+    function isOrganizer() {
+      return isSignedIn() && request.auth.token.email_verified == true && (
+        request.auth.token.email == "tojishtopsy@gmail.com" || 
+        request.auth.token.email.endsWith("@cekgr.ac.in") ||
+        exists(/databases/$(database)/documents/organizers/$(request.auth.uid))
+      );
+    }
+
+    // Helper to validate the registration format and sizes to prevent Denial of Wallet/exhaustion attacks
+    function isValidRegistration(data) {
+      return data.keys().hasAll([
+          'name', 'email', 'phone', 'ieeeStatus', 
+          'college', 'department', 'yearOfStudy', 
+          'ticketId', 'createdAt'
+        ])
+        && data.name is string && data.name.size() > 0 && data.name.size() <= 150
+        && data.email is string && data.email.size() > 0 && data.email.size() <= 150
+        && data.phone is string && data.phone.size() >= 5 && data.phone.size() <= 30
+        && data.ticketId is string && data.ticketId.size() >= 4 && data.ticketId.size() <= 30
+        && (resource == null ? data.createdAt == request.time : data.createdAt == resource.data.createdAt);
+    }
+
+    // Registrations Collection
+    match /registrations/{emailId} {
+      // Create is public but protected:
+      // 1. Must use the lowercase email as document ID
+      // 2. Cannot overwrite an existing registration (only created if document doesn't already exist)
+      // 3. Must be formatted validly
+      allow create: if isValidId(emailId) && emailId == incoming().email.lowerAscii() && isValidRegistration(incoming());
+      
+      // Get single document is allowed for lookups (knowing the email allows fetching the ticket)
+      // Or if they are a verified CEK Organizer
+      allow get: if isValidId(emailId) || isOrganizer();
+      
+      // Querying the whole list of registrations is strictly locked to Organizers
+      allow list: if isOrganizer();
+
+      // Only Organizers can update or delete registrations
+      allow update: if isOrganizer() && isValidRegistration(incoming());
+      allow delete: if isOrganizer();
+    }
+
+    // Organizers collection to grant custom admin permissions
+    match /organizers/{uid} {
+      allow read: if isOrganizer();
+      allow write: if isOrganizer();
+    }
+
+    // Events Collection - public read/write to allow testing event additions from the frontend dashboard
+    match /events/{eventId} {
+      allow read, write: if true;
+    }
+  }
+}

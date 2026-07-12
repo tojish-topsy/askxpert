@@ -1,0 +1,213 @@
+{
+  "entities": {
+    "notification": {
+      "title": "Notification",
+      "description": "Information collected for AskXpert coming soon notifications",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Full name of the registrant"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email address of the registrant"
+        },
+        "phone": {
+          "type": "string",
+          "description": "Mobile number of the registrant"
+        },
+        "department": {
+          "type": "string",
+          "description": "Department of study"
+        },
+        "yearOfStudy": {
+          "type": "string",
+          "description": "Year of study (1st, 2nd, 3rd, 4th, Other)"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp"
+        }
+      },
+      "required": ["name", "email", "phone", "createdAt"]
+    },
+    "registration": {
+      "title": "Registration",
+      "description": "Active participant registration details for the AskXpert program",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Full name of the registrant"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email address of the registrant"
+        },
+        "phone": {
+          "type": "string",
+          "description": "Mobile/WhatsApp number of the registrant"
+        },
+        "ieeeStatus": {
+          "type": "string",
+          "enum": ["member", "non-member"],
+          "description": "IEEE Membership status"
+        },
+        "ieeeId": {
+          "type": "string",
+          "description": "IEEE Membership ID if applicable"
+        },
+        "college": {
+          "type": "string",
+          "description": "College name of study"
+        },
+        "department": {
+          "type": "string",
+          "description": "Department / Branch of study"
+        },
+        "yearOfStudy": {
+          "type": "string",
+          "description": "Year of study (e.g., 1st Year, 2nd Year, etc.)"
+        },
+        "expectations": {
+          "type": "string",
+          "description": "Questions or expectations for the experts"
+        },
+        "ticketId": {
+          "type": "string",
+          "description": "Unique registration ticket ID"
+        },
+        "transactionId": {
+          "type": "string",
+          "description": "Payment UPI reference / Transaction ID"
+        },
+        "screenshot": {
+          "type": "string",
+          "description": "Base64 encoded payment verification screenshot"
+        },
+        "roleType": {
+          "type": "string",
+          "enum": ["student", "professional"],
+          "description": "User category type"
+        },
+        "institutionName": {
+          "type": "string",
+          "description": "Name of the study institution"
+        },
+        "courseName": {
+          "type": "string",
+          "description": "Name of the course/degree"
+        },
+        "otherCourseName": {
+          "type": "string",
+          "description": "Name of other course/degree if Others"
+        },
+        "branchName": {
+          "type": "string",
+          "description": "Branch of engineering/study"
+        },
+        "otherBranchName": {
+          "type": "string",
+          "description": "Name of other branch if Others"
+        },
+        "organizationName": {
+          "type": "string",
+          "description": "Name of organization for professionals"
+        },
+        "designation": {
+          "type": "string",
+          "description": "Professional designation"
+        },
+        "paymentStatus": {
+          "type": "string",
+          "enum": ["pending", "verified", "failed"],
+          "description": "Verification status of the payment"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Registration submission timestamp"
+        }
+      },
+      "required": [
+        "name",
+        "email",
+        "phone",
+        "ieeeStatus",
+        "college",
+        "department",
+        "yearOfStudy",
+        "ticketId",
+        "createdAt"
+      ]
+    },
+    "event": {
+      "title": "Event",
+      "description": "IEEE CEK event details including active, upcoming, and past categories",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Title of the event"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the event"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["active", "upcoming", "past"],
+          "description": "Event classification status"
+        },
+        "date": {
+          "type": "string",
+          "description": "Date of the event"
+        },
+        "time": {
+          "type": "string",
+          "description": "Time of the event"
+        },
+        "venue": {
+          "type": "string",
+          "description": "Location or online platform of the event"
+        },
+        "speaker": {
+          "type": "string",
+          "description": "Name of the speaker or expert"
+        },
+        "speakerTitle": {
+          "type": "string",
+          "description": "Speaker title or company/designation"
+        },
+        "category": {
+          "type": "string",
+          "description": "Visual theme category or icon name"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Event registration or creation date"
+        }
+      },
+      "required": ["title", "description", "type", "date", "venue", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/notifications/{notificationId}": {
+      "schema": "notification",
+      "description": "Subscribed users list for AskXpert program coming soon notifications"
+    },
+    "/registrations/{emailId}": {
+      "schema": "registration",
+      "description": "Full registrations of participants for the AskXpert event"
+    },
+    "/events/{eventId}": {
+      "schema": "event",
+      "description": "List of active, upcoming, and past events"
+    }
+  }
+}
