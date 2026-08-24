@@ -40,7 +40,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
     name: '',
     email: '',
     phone: '',
-    language: 'English' as 'English' | 'Malayalam',
+    language: 'Malayalam' as 'Malayalam' | 'English',
     roleType: 'student' as 'student' | 'professional',
     // Student fields:
     institutionName: '',
@@ -321,8 +321,9 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
               onChange={handleInputChange}
               className="w-full bg-white border border-emerald-950/10 focus:border-emerald-800/50 rounded-xl px-3 py-2.5 text-xs text-emerald-950 font-sans outline-none transition-all duration-300 focus:ring-2 focus:ring-emerald-800/10 cursor-pointer font-medium"
             >
-              <option value="English">English</option>
               <option value="Malayalam">Malayalam</option>
+              <option value="English">English</option>
+
             </select>
           </div>
 
