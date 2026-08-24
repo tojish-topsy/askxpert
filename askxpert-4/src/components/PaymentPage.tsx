@@ -21,8 +21,8 @@ export const PaymentPage: React.FC<PaymentPageProps> = ({ registrationData, onBa
   
   // Calculate pricing based on role and IEEE membership combination
   const amount = isProfessional 
-    ? (isIeee ? 1 : 3) 
-    : (isIeee ? 2 : 4);
+    ? (isIeee ? 3 : 4) 
+    : (isIeee ? 1 : 2);
 
   // Safe error logging
   const handleFirestoreError = (err: unknown, operationType: 'write', path: string) => {
