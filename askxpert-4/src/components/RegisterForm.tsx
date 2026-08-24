@@ -307,31 +307,13 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
               />
             </div>
           </div>
-
+         
           {/* Preferred Language Dropdown */}
           <div className="flex flex-col space-y-1">
-            <div className="flex items-center justify-between">
-              <label htmlFor="language" className="text-[10px] font-sans font-bold tracking-wider text-emerald-900 uppercase flex items-center space-x-1.5">
-                <Globe className="w-3 h-3 text-emerald-800" />
-                <span>Preferred Language</span>
-              </label>
-              
-              <div className="relative group flex items-center">
-                <button
-                  type="button"
-                  aria-label="Language selection information"
-                  className="text-emerald-700/70 hover:text-emerald-900 transition-colors p-0.5 rounded-full hover:bg-emerald-900/5 cursor-pointer"
-                >
-                  <Info className="w-3.5 h-3.5" />
-                </button>
-                {/* Tooltip */}
-                <div className="absolute right-0 bottom-full mb-1.5 hidden group-hover:block group-focus-within:block w-52 p-2 bg-emerald-950 text-[#FAF9F5] text-[11px] rounded-lg shadow-lg border border-emerald-800/30 z-30 pointer-events-none transition-all leading-snug">
-                  Select your preferred language for event communication, notifications, and materials.
-                  <div className="absolute top-full right-2 -mt-1 border-4 border-transparent border-t-emerald-950" />
-                </div>
-              </div>
-            </div>
-
+            <label htmlFor="language" className="text-[10px] font-sans font-bold tracking-wider text-emerald-900 uppercase flex items-center space-x-1.5">
+              <Globe className="w-3 h-3 text-emerald-800" />
+              <span>Preferred Language</span>
+            </label>
             <select
               id="language"
               name="language"
@@ -341,6 +323,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
             >
               <option value="Malayalam">Malayalam</option>
               <option value="English">English</option>
+
             </select>
           </div>
 
