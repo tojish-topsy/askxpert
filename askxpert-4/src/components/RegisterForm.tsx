@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { motion, AnimatePresence } from 'motion/react';
-import { Sparkles, AlertCircle, Loader2, ArrowRight, ArrowLeft, User, Mail, Phone, School, Briefcase } from 'lucide-react';
+import { Sparkles, AlertCircle, Loader2, ArrowRight, ArrowLeft, User, Mail, Phone, School, Briefcase, Globe } from 'lucide-react';
 import { FirestoreErrorInfo } from '../types';
 
 interface RegisterFormProps {
@@ -10,6 +10,7 @@ interface RegisterFormProps {
     name: string;
     email: string;
     phone: string;
+    language?: 'English' | 'Malayalam';
     ieeeStatus: 'member' | 'non-member';
     ieeeId?: string;
     college: string;
@@ -34,12 +35,12 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
   onSwitchToLookup,
   onBackToEvents
 }) => {
-  const isRegistrationClosed = true;
 
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
+    language: 'English' as 'English' | 'Malayalam',
     roleType: 'student' as 'student' | 'professional',
     // Student fields:
     institutionName: '',
@@ -86,7 +87,6 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isRegistrationClosed) return;
     setLoading(true);
     setError(null);
 
@@ -192,6 +192,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
         name: nameClean,
         email: emailClean,
         phone: phoneClean,
+        language: formData.language,
         ieeeStatus: formData.ieeeStatus,
         college: collegeName,
         department: deptDetails,
@@ -250,18 +251,6 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
           </div>
         </div>
 
-        {isRegistrationClosed && (
-          <div className="mb-5 bg-rose-50 border border-rose-150 p-4 rounded-xl text-rose-900 text-xs flex items-start space-x-2.5">
-            <AlertCircle className="w-4 h-4 text-rose-600 flex-shrink-0 mt-0.5" />
-            <div className="space-y-1">
-              <p className="font-bold">Registration Closed</p>
-              <p className="text-rose-800/80 leading-relaxed font-sans">
-                Delegate registration for this event is currently closed. If you have already registered, you can retrieve your entry pass using the link below.
-              </p>
-            </div>
-          </div>
-        )}
-
         <form onSubmit={handleSubmit} className="space-y-4">
           
           {/* Row 1: Name */}
@@ -275,11 +264,10 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
               id="name"
               name="name"
               required
-              disabled={isRegistrationClosed}
               value={formData.name}
               onChange={handleInputChange}
               placeholder="YOUR NAME"
-              className="w-full bg-white border border-emerald-950/10 focus:border-emerald-800/50 rounded-xl px-4 py-2.5 text-sm text-emerald-950 font-sans placeholder-emerald-950/30 outline-none transition-all duration-300 focus:ring-2 focus:ring-emerald-800/10 disabled:bg-emerald-950/5 disabled:text-emerald-950/50 disabled:cursor-not-allowed"
+              className="w-full bg-white border border-emerald-950/10 focus:border-emerald-800/50 rounded-xl px-4 py-2.5 text-sm text-emerald-950 font-sans placeholder-emerald-950/30 outline-none transition-all duration-300 focus:ring-2 focus:ring-emerald-800/10"
             />
           </div>
 
@@ -295,11 +283,10 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
                 id="email"
                 name="email"
                 required
-                disabled={isRegistrationClosed}
                 value={formData.email}
                 onChange={handleInputChange}
                 placeholder="YOUR EMAIL"
-                className="w-full bg-white border border-emerald-950/10 focus:border-emerald-800/50 rounded-xl px-4 py-2.5 text-sm text-emerald-950 font-sans placeholder-emerald-950/30 outline-none transition-all duration-300 focus:ring-2 focus:ring-emerald-800/10 disabled:bg-emerald-950/5 disabled:text-emerald-950/50 disabled:cursor-not-allowed"
+                className="w-full bg-white border border-emerald-950/10 focus:border-emerald-800/50 rounded-xl px-4 py-2.5 text-sm text-emerald-950 font-sans placeholder-emerald-950/30 outline-none transition-all duration-300 focus:ring-2 focus:ring-emerald-800/10"
               />
             </div>
 
@@ -313,13 +300,30 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
                 id="phone"
                 name="phone"
                 required
-                disabled={isRegistrationClosed}
                 value={formData.phone}
                 onChange={handleInputChange}
                 placeholder="YOUR NUMBER"
-                className="w-full bg-white border border-emerald-950/10 focus:border-emerald-800/50 rounded-xl px-4 py-2.5 text-sm text-emerald-950 font-sans placeholder-emerald-950/30 outline-none transition-all duration-300 focus:ring-2 focus:ring-emerald-800/10 disabled:bg-emerald-950/5 disabled:text-emerald-950/50 disabled:cursor-not-allowed"
+                className="w-full bg-white border border-emerald-950/10 focus:border-emerald-800/50 rounded-xl px-4 py-2.5 text-sm text-emerald-950 font-sans placeholder-emerald-950/30 outline-none transition-all duration-300 focus:ring-2 focus:ring-emerald-800/10"
               />
             </div>
+          </div>
+
+          {/* Preferred Language Dropdown */}
+          <div className="flex flex-col space-y-1">
+            <label htmlFor="language" className="text-[10px] font-sans font-bold tracking-wider text-emerald-900 uppercase flex items-center space-x-1.5">
+              <Globe className="w-3 h-3 text-emerald-800" />
+              <span>Preferred Language</span>
+            </label>
+            <select
+              id="language"
+              name="language"
+              value={formData.language}
+              onChange={handleInputChange}
+              className="w-full bg-white border border-emerald-950/10 focus:border-emerald-800/50 rounded-xl px-3 py-2.5 text-xs text-emerald-950 font-sans outline-none transition-all duration-300 focus:ring-2 focus:ring-emerald-800/10 cursor-pointer font-medium"
+            >
+              <option value="English">English</option>
+              <option value="Malayalam">Malayalam</option>
+            </select>
           </div>
 
 
@@ -332,9 +336,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
             <div className="grid grid-cols-2 gap-3">
               <button
                 type="button"
-                disabled={isRegistrationClosed}
-                onClick={() => !isRegistrationClosed && setFormData(prev => ({ ...prev, roleType: 'student' }))}
-                className={`flex items-center justify-center space-x-2 py-3 px-4 rounded-xl border text-xs font-bold transition-all duration-300 cursor-pointer disabled:cursor-not-allowed disabled:opacity-75 ${
+                onClick={() => setFormData(prev => ({ ...prev, roleType: 'student' }))}
+                className={`flex items-center justify-center space-x-2 py-3 px-4 rounded-xl border text-xs font-bold transition-all duration-300 cursor-pointer ${
                   formData.roleType === 'student'
                     ? 'bg-emerald-900/10 border-emerald-900 text-emerald-950 shadow-sm'
                     : 'bg-white border-emerald-950/10 text-emerald-950/60 hover:text-emerald-950 hover:border-emerald-950/25'
@@ -345,9 +348,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
               </button>
               <button
                 type="button"
-                disabled={isRegistrationClosed}
-                onClick={() => !isRegistrationClosed && setFormData(prev => ({ ...prev, roleType: 'professional' }))}
-                className={`flex items-center justify-center space-x-2 py-3 px-4 rounded-xl border text-xs font-bold transition-all duration-300 cursor-pointer disabled:cursor-not-allowed disabled:opacity-75 ${
+                onClick={() => setFormData(prev => ({ ...prev, roleType: 'professional' }))}
+                className={`flex items-center justify-center space-x-2 py-3 px-4 rounded-xl border text-xs font-bold transition-all duration-300 cursor-pointer ${
                   formData.roleType === 'professional'
                     ? 'bg-emerald-900/10 border-emerald-900 text-emerald-950 shadow-sm'
                     : 'bg-white border-emerald-950/10 text-emerald-950/60 hover:text-emerald-950 hover:border-emerald-950/25'
@@ -630,34 +632,23 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
           </AnimatePresence>
 
           {/* Action Button */}
-          {isRegistrationClosed ? (
-            <button
-              type="button"
-              disabled
-              className="w-full bg-rose-950/10 text-rose-950/50 border border-rose-950/10 font-display font-bold text-sm tracking-widest py-3 px-4 rounded-xl cursor-not-allowed transition-all duration-300 flex items-center justify-center space-x-2 uppercase mt-4"
-            >
-              <AlertCircle className="w-4 h-4 text-rose-950/35" />
-              <span>Registration Closed</span>
-            </button>
-          ) : (
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-emerald-900 hover:bg-emerald-950 text-[#FAF9F5] font-display font-bold text-sm tracking-widest py-3 px-4 rounded-xl cursor-pointer transition-all duration-300 shadow-md shadow-emerald-900/10 flex items-center justify-center space-x-2 disabled:bg-emerald-950/40 disabled:cursor-not-allowed uppercase mt-4"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="w-4.5 h-4.5 animate-spin" />
-                  <span>Checking records...</span>
-                </>
-              ) : (
-                <>
-                  <span>Proceed to Payment</span>
-                  <ArrowRight className="w-4 h-4" />
-                </>
-              )}
-            </button>
-          )}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-emerald-900 hover:bg-emerald-950 text-[#FAF9F5] font-display font-bold text-sm tracking-widest py-3 px-4 rounded-xl cursor-pointer transition-all duration-300 shadow-md shadow-emerald-900/10 flex items-center justify-center space-x-2 disabled:bg-emerald-950/40 disabled:cursor-not-allowed uppercase mt-4"
+          >
+            {loading ? (
+              <>
+                <Loader2 className="w-4.5 h-4.5 animate-spin" />
+                <span>Checking records...</span>
+              </>
+            ) : (
+              <>
+                <span>Proceed to Payment</span>
+                <ArrowRight className="w-4 h-4" />
+              </>
+            )}
+          </button>
 
           {onSwitchToLookup && (
             <div className="pt-4 border-t border-emerald-950/5 text-center mt-4">

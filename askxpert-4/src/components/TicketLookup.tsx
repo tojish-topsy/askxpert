@@ -312,7 +312,7 @@ export const TicketLookup: React.FC<TicketLookupProps> = ({
                       </span>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4 text-xs">
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-xs">
                       <div>
                         <span className="text-[8px] font-mono text-[#FAF9F5]/50 uppercase block">
                           {ticket.roleType === 'professional' ? 'ORGANIZATION' : 'INSTITUTION'}
@@ -333,6 +333,14 @@ export const TicketLookup: React.FC<TicketLookupProps> = ({
                             : `${ticket.department} ${ticket.yearOfStudy ? `• ${ticket.yearOfStudy}` : ''}`}
                         </span>
                       </div>
+                      {ticket.language && (
+                        <div>
+                          <span className="text-[8px] font-mono text-[#FAF9F5]/50 uppercase block">LANGUAGE</span>
+                          <span className="font-sans font-semibold text-[#FAF9F5] truncate block mt-0.5">
+                            {ticket.language}
+                          </span>
+                        </div>
+                      )}
                     </div>
 
                     {ticket.screenshot && (
@@ -351,10 +359,13 @@ export const TicketLookup: React.FC<TicketLookupProps> = ({
 
                     {ticket.transactionId && !ticket.screenshot && (
                       <div className="text-xs pt-1">
-                        <span className="text-[8px] font-mono text-[#FAF9F5]/50 uppercase block">UPI TRAN REF / UTR</span>
-                        <span className="font-mono text-[11px] font-bold text-amber-200 mt-0.5 block tracking-wider">
-                          {ticket.transactionId}
-                        </span>
+                        <span className="text-[8px] font-mono text-[#FAF9F5]/50 uppercase block">PAYMENT TRANSACTION ID</span>
+                        <div className="flex items-center space-x-1.5 mt-0.5">
+                          <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                          <span className="font-mono text-[11px] font-bold text-emerald-300 tracking-wider">
+                            {ticket.transactionId}
+                          </span>
+                        </div>
                       </div>
                     )}
                   </div>

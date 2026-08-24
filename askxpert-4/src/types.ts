@@ -10,6 +10,7 @@ export interface Registration {
   name: string;
   email: string;
   phone: string;
+  language?: 'English' | 'Malayalam';
   ieeeStatus: 'member' | 'non-member';
   ieeeId?: string;
   college: string;

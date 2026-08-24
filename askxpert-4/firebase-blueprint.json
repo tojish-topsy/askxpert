@@ -52,6 +52,11 @@
           "type": "string",
           "description": "Mobile/WhatsApp number of the registrant"
         },
+        "language": {
+          "type": "string",
+          "enum": ["English", "Malayalam"],
+          "description": "Preferred language selection (English or Malayalam)"
+        },
         "ieeeStatus": {
           "type": "string",
           "enum": ["member", "non-member"],

@@ -621,9 +621,9 @@ export const EventsDashboard: React.FC<EventsDashboardProps> = ({ onRegisterClic
           {activeEvents.length > 0 && (
             <div className="space-y-4">
               <div className="flex items-center space-x-2 border-b border-emerald-950/5 pb-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-950/30" />
-                <h3 className="font-mono text-xs font-extrabold uppercase tracking-widest text-emerald-950/60">
-                  Events (Registration Closed)
+                <span className="w-2 h-2 rounded-full bg-rose-600 animate-ping" />
+                <h3 className="font-mono text-xs font-extrabold uppercase tracking-widest text-rose-700">
+                  Current / Active Events
                 </h3>
               </div>
 
@@ -649,25 +649,23 @@ export const EventsDashboard: React.FC<EventsDashboardProps> = ({ onRegisterClic
                               referrerPolicy="no-referrer"
                             />
                           </div>
-                          {/* Changed to Registration Closed */}
+                          {/* Register Now button directly under the poster */}
                           <button
-                            disabled
-                            className="w-full flex items-center justify-center space-x-2 px-4 py-3 rounded-xl bg-[#FAF9F5]/10 text-[#FAF9F5]/50 border border-[#FAF9F5]/10 font-mono text-xs font-bold cursor-not-allowed select-none"
+                            onClick={onRegisterClick}
+                            className="w-full flex items-center justify-center space-x-2 px-4 py-3 rounded-xl bg-[#FAF9F5] text-emerald-950 font-mono text-xs font-bold hover:bg-emerald-50 active:scale-95 transition-all shadow-sm cursor-pointer select-none group"
                           >
-                            <span>Registration Closed</span>
+                            <span>Register Now</span>
+                            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                           </button>
                         </div>
                       )}
 
                       <div className={`${event.poster ? 'md:col-span-8 lg:col-span-9' : 'md:col-span-12'} flex flex-col lg:flex-row lg:items-center justify-between gap-6`}>
                         <div className="space-y-4 max-w-3xl flex-grow">
-                          <div className="flex items-center space-x-2">
+                          <div className="flex items-center justify-between">
                             {/* Event Category Tag */}
                             <div className="inline-block px-2.5 py-1 rounded-md bg-[#FAF9F5]/10 border border-[#FAF9F5]/10 font-mono text-[9px] font-bold uppercase tracking-widest">
                               {event.category || 'Spotlight Session'}
-                            </div>
-                            <div className="inline-block px-2.5 py-1 rounded-md bg-rose-500/20 border border-rose-500/30 text-rose-300 font-mono text-[9px] font-bold uppercase tracking-widest">
-                              Registration Closed
                             </div>
                           </div>
 
@@ -707,10 +705,11 @@ export const EventsDashboard: React.FC<EventsDashboardProps> = ({ onRegisterClic
                         {!event.poster && (
                           <div className="flex flex-row lg:flex-col items-center gap-3 shrink-0 self-start lg:self-center">
                             <button
-                              disabled
-                              className="flex items-center justify-center space-x-2.5 px-6 py-3.5 rounded-xl bg-[#FAF9F5]/10 text-[#FAF9F5]/50 border border-[#FAF9F5]/10 font-mono text-xs font-bold cursor-not-allowed select-none"
+                              onClick={onRegisterClick}
+                              className="flex items-center justify-center space-x-2.5 px-6 py-3.5 rounded-xl bg-[#FAF9F5] text-emerald-950 font-mono text-xs font-bold hover:bg-emerald-50 active:scale-95 transition-all shadow-sm cursor-pointer select-none group"
                             >
-                              <span>Registration Closed</span>
+                              <span>Register Now</span>
+                              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                             </button>
                           </div>
                         )}
@@ -729,7 +728,7 @@ export const EventsDashboard: React.FC<EventsDashboardProps> = ({ onRegisterClic
             <div className="space-y-4">
               <div className="flex items-center space-x-2 border-b border-emerald-950/5 pb-2">
                 <h3 className="font-mono text-xs font-extrabold uppercase tracking-widest text-emerald-950/60">
-                  Previous Events
+                  Ended Events / Archives
                 </h3>
               </div>
 
