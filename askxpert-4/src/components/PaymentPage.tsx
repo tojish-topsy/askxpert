@@ -169,14 +169,14 @@ export const PaymentPage: React.FC<PaymentPageProps> = ({ registrationData, onBa
     }
 
     // @ts-ignore
-    const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_51wsfliIEEE';
+    const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_live_TTWhBVZABEJn8e';
 
     // 3. Initialize Razorpay Checkout Options
     const options = {
       key: razorpayKey,
-      amount: amount * 100, // Amount in paise (e.g. ₹30 = 3000 paise)
+      amount: amount * 100, // Amount in paise
       currency: 'INR',
-      name: 'IEEE SB CEK',
+      name: 'AskXpert',
       description: `AskXpert Delegate Registration (${registrationData.name})`,
       image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=128&auto=format&fit=crop&q=80',
       prefill: {
