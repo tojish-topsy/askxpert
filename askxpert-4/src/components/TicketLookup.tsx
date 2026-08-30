@@ -244,7 +244,7 @@ export const TicketLookup: React.FC<TicketLookupProps> = ({
                 </div>
                 <div className="flex-shrink-0 self-start md:self-center">
                   <a
-                    href="https://chat.whatsapp.com/EV6fGzC5MotDaEySCjmYxd?s=sw&p=a&mlu=4"
+                    href="https://chat.whatsapp.com/FGzbCRebAZc7guARlJ2QAw?s=cl&p=a&mlu=4"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center space-x-2 bg-[#25D366] hover:bg-[#20ba5a] text-white font-sans font-bold text-xs px-5 py-3 rounded-xl transition-all duration-300 shadow-md hover:shadow-[#25D366]/20 hover:scale-[1.02] active:scale-95"
