@@ -484,6 +484,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
                         <option value="Computer Science & Engineering">Computer Science & Engineering</option>
                         <option value="Electronics & Communication Engineering">Electronics & Communication Engineering</option>
                         <option value="Electrical & Electronics Engineering">Electrical & Electronics Engineering</option>
+                        <option value="Elecrical & Computer Engineering">Elecrical & Computer Engineering</option>
                         <option value="Information Technology">Information Technology</option>
                         <option value="Civil Engineering">Civil Engineering</option>
                         <option value="Mechanical Engineering">Mechanical Engineering</option>
