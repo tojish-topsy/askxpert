@@ -244,7 +244,7 @@ export const TicketLookup: React.FC<TicketLookupProps> = ({
                 </div>
                 <div className="flex-shrink-0 self-start md:self-center">
                   <a
-                    href="https://chat.whatsapp.com/FGzbCRebAZc7guARlJ2QAw?s=cl&p=a&mlu=4"
+                    href="https://chat.whatsapp.com/KvI8aN9PF019VaBjDQ9gGx"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center space-x-2 bg-[#25D366] hover:bg-[#20ba5a] text-white font-sans font-bold text-xs px-5 py-3 rounded-xl transition-all duration-300 shadow-md hover:shadow-[#25D366]/20 hover:scale-[1.02] active:scale-95"
@@ -278,6 +278,11 @@ export const TicketLookup: React.FC<TicketLookupProps> = ({
                         {ticket.paymentStatus === 'failed' ? (
                           <div className="flex items-center space-x-1 text-rose-400 bg-rose-950/40 px-2 py-0.5 rounded-md">
                             <span className="text-[9px] font-mono tracking-widest uppercase font-bold">Payment Failed</span>
+                          </div>
+                        ) : ticket.paymentStatus === 'pending' ? (
+                          <div className="flex items-center space-x-1.5 text-amber-300 bg-amber-950/50 border border-amber-500/30 px-2 py-0.5 rounded-md">
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                            <span className="text-[9px] font-mono tracking-widest uppercase font-bold">UPI Verification Pending</span>
                           </div>
                         ) : (
                           <div className="flex items-center space-x-1 text-emerald-400">
@@ -343,31 +348,35 @@ export const TicketLookup: React.FC<TicketLookupProps> = ({
                       )}
                     </div>
 
-                    {ticket.screenshot && (
-                      <div className="text-xs pt-1">
-                        <span className="text-[8px] font-mono text-[#FAF9F5]/50 uppercase block">Payment Verification</span>
-                        <button
-                          type="button"
-                          onClick={() => setShowScreenshotModal(true)}
-                          className="mt-1 flex items-center space-x-1.5 bg-emerald-900 hover:bg-emerald-800 text-white border border-emerald-700/50 rounded-xl px-3 py-1.5 text-[10px] font-mono tracking-wider transition-all duration-300 cursor-pointer shadow-sm hover:shadow-emerald-950/20 active:scale-95"
-                        >
-                          <Eye className="w-3.5 h-3.5 text-emerald-300" />
-                          <span>View Screenshot</span>
-                        </button>
-                      </div>
-                    )}
-
-                    {ticket.transactionId && !ticket.screenshot && (
-                      <div className="text-xs pt-1">
-                        <span className="text-[8px] font-mono text-[#FAF9F5]/50 uppercase block">PAYMENT TRANSACTION ID</span>
-                        <div className="flex items-center space-x-1.5 mt-0.5">
-                          <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                          <span className="font-mono text-[11px] font-bold text-emerald-300 tracking-wider">
-                            {ticket.transactionId}
+                    <div className="flex flex-wrap items-center gap-4 pt-1">
+                      {ticket.transactionId && (
+                        <div className="text-xs">
+                          <span className="text-[8px] font-mono text-[#FAF9F5]/50 uppercase block">
+                            {ticket.paymentMethod === 'razorpay' ? 'PAYMENT ID' : 'TRANSACTION / UTR ID'}
                           </span>
+                          <div className="flex items-center space-x-1.5 mt-0.5">
+                            <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                            <span className="font-mono text-[11px] font-bold text-emerald-300 tracking-wider">
+                              {ticket.transactionId}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
+
+                      {ticket.screenshot && (
+                        <div className="text-xs">
+                          <span className="text-[8px] font-mono text-[#FAF9F5]/50 uppercase block">PAYMENT PROOF</span>
+                          <button
+                            type="button"
+                            onClick={() => setShowScreenshotModal(true)}
+                            className="mt-0.5 flex items-center space-x-1.5 bg-emerald-900 hover:bg-emerald-800 text-white border border-emerald-700/50 rounded-xl px-3 py-1 text-[10px] font-mono tracking-wider transition-all duration-300 cursor-pointer shadow-sm hover:shadow-emerald-950/20 active:scale-95"
+                          >
+                            <Eye className="w-3.5 h-3.5 text-emerald-300" />
+                            <span>View Screenshot</span>
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
 
                 </div>

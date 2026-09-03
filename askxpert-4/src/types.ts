@@ -22,6 +22,8 @@ export interface Registration {
   transactionId?: string;
   screenshot?: string; // Base64 payment screenshot
   paymentStatus?: 'pending' | 'verified' | 'failed';
+  paymentMethod?: 'razorpay' | 'upi_qr';
+  amount?: number;
   roleType?: 'student' | 'professional';
   institutionName?: string;
   courseName?: string;
