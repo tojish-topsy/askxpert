@@ -15,7 +15,8 @@ import {
   Check, 
   UploadCloud, 
   X, 
-  ChevronRight
+  ChevronRight,
+  Download
 } from 'lucide-react';
 import QRCode from 'qrcode';
 import { Registration, FirestoreErrorInfo } from '../types';
@@ -56,19 +57,19 @@ export const PaymentPage: React.FC<PaymentPageProps> = ({ registrationData, onBa
   // @ts-ignore
   const payeeName = import.meta.env.VITE_UPI_PAYEE_NAME || 'AskXpert IEEE CEK';
 
-  // Construct standard UPI deep-link URI
-  const upiDeepLink = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(payeeName)}&am=${amount}&cu=INR&tn=${encodeURIComponent(`AskXpert Registration ${registrationData.name}`)}`;
+  // Construct standard UPI deep-link URI (clean, short note 'AskXpert' for 100% UPI gallery regex compliance)
+  const upiDeepLink = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(payeeName)}&am=${amount}&cu=INR&tn=AskXpert`;
 
-  // Generate dynamic QR code according to the criteria and calculated fee
+  // Generate dynamic QR code with pure black-on-white, 4-module quiet zone & Level H error correction
   useEffect(() => {
     QRCode.toDataURL(upiDeepLink, {
-      width: 320,
-      margin: 2,
+      width: 400,
+      margin: 4,
       color: {
-        dark: '#064e3b', // Deep emerald
-        light: '#ffffff',
+        dark: '#000000', // Pure black for optimal screenshot binarization & gallery scanner recognition
+        light: '#ffffff', // Pure white
       },
-      errorCorrectionLevel: 'M',
+      errorCorrectionLevel: 'H', // High error correction (30% tolerance)
     })
       .then((url) => {
         setQrCodeUrl(url);
@@ -676,31 +677,47 @@ export const PaymentPage: React.FC<PaymentPageProps> = ({ registrationData, onBa
               </div>
             </div>
 
-            {/* Dynamic QR Code Card */}
-            <div className="bg-white border border-emerald-950/10 rounded-2xl p-5 flex flex-col items-center text-center space-y-3 shadow-sm">
-              <div className="relative p-2 bg-emerald-950/5 border border-emerald-900/10 rounded-xl">
+            {/* Dynamic QR Code Card (Unobstructed Pure White Quiet Zone for 100% Gallery Scanning) */}
+            <div className="bg-white border border-emerald-950/10 rounded-2xl p-5 flex flex-col items-center text-center space-y-3.5 shadow-sm">
+              <div className="bg-white p-2 rounded-xl border border-emerald-950/10 shadow-inner flex items-center justify-center">
                 {qrCodeUrl ? (
                   <img 
                     src={qrCodeUrl} 
                     alt={`UPI QR Code for ₹${amount}.00`} 
-                    className="w-48 h-48 md:w-52 md:h-52 rounded-lg object-contain"
+                    className="w-52 h-52 md:w-56 md:h-56 object-contain rounded-md"
                   />
                 ) : (
-                  <div className="w-48 h-48 flex items-center justify-center">
+                  <div className="w-52 h-52 flex items-center justify-center">
                     <Loader2 className="w-6 h-6 animate-spin text-emerald-800" />
                   </div>
                 )}
-                <div className="absolute top-2 right-2 bg-emerald-900 text-white font-mono font-bold text-[10px] px-2 py-0.5 rounded-md shadow-sm">
-                  ₹{amount}.00
-                </div>
               </div>
 
-              <div className="space-y-1">
-                <span className="text-[11px] font-sans font-semibold text-emerald-950">
-                  Scan using any UPI App
+              {/* Unobstructed Amount & Quick Save Button */}
+              <div className="flex flex-col items-center space-y-2 w-full">
+                <div className="inline-flex items-center space-x-2 bg-emerald-900/10 border border-emerald-900/20 px-3.5 py-1 rounded-full">
+                  <span className="text-[11px] font-medium text-emerald-900">Amount to Pay:</span>
+                  <span className="text-sm font-mono font-black text-emerald-950">₹{amount}.00</span>
+                </div>
+
+                {qrCodeUrl && (
+                  <a
+                    href={qrCodeUrl}
+                    download={`AskXpert-UPI-QR-INR-${amount}.png`}
+                    className="inline-flex items-center space-x-1.5 text-xs font-mono font-bold text-emerald-900 bg-emerald-100/80 hover:bg-emerald-200 border border-emerald-800/20 px-3.5 py-1.5 rounded-lg transition-colors cursor-pointer active:scale-95"
+                  >
+                    <Download className="w-3.5 h-3.5 text-emerald-800" />
+                    <span>Save QR to Gallery</span>
+                  </a>
+                )}
+              </div>
+
+              <div className="bg-emerald-950/[0.03] border border-emerald-950/5 rounded-xl p-2.5 w-full text-center space-y-0.5">
+                <span className="text-[11px] font-sans font-semibold text-emerald-950 block">
+                  Scan with Google Pay, PhonePe, Paytm, or any UPI App
                 </span>
                 <p className="text-[10px] text-emerald-900/60 font-sans">
-                  Google Pay • PhonePe • Paytm • BHIM • Cred UPI
+                  💡 Paying on this phone? Take a screenshot or tap <strong className="font-semibold text-emerald-900">Save QR to Gallery</strong>, then select <em className="italic">Scan from Gallery / Upload QR</em> in your UPI app.
                 </p>
               </div>
             </div>
