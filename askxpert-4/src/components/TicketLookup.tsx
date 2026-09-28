@@ -296,7 +296,7 @@ export const TicketLookup: React.FC<TicketLookupProps> = ({
 
                     <div className="text-right select-none">
                       <span className="font-sans font-bold text-[9px] text-[#FAF9F5]/60 tracking-widest block uppercase">CONDUCTED BY</span>
-                      <span className="font-sans font-extrabold text-[9px] tracking-tight text-emerald-400 uppercase">IEEE CEK SB</span>
+                      <span className="font-sans font-extrabold text-[9px] tracking-tight text-emerald-400 uppercase">IEEE SB CEK</span>
                     </div>
                   </div>
 
